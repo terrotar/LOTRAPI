@@ -45,7 +45,7 @@ async def list_all_races():
 @router.get("/human")
 async def list_all_human():
 
-    human_endpoint = 'https://the-one-api.dev/v2/character?race=Human&wikiUrl'
+    human_endpoint = 'https://the-one-api.dev/v2/character?race=Human,Men&wikiUrl'
 
     api_token = dotenv_values(".env")
 
@@ -179,30 +179,6 @@ async def list_all_ent():
 
     if all_ent:
         return all_ent
-
-    raise HTTPException(
-        status_code=503,
-        detail="The One API connection failed"
-    )
-
-
-# List all Men
-@router.get("/men")
-async def list_all_men():
-
-    human_endpoint = 'https://the-one-api.dev/v2/character?wikiUrl&race=Men'
-
-    api_token = dotenv_values(".env")
-
-    characters_request = requests.get(
-        url=human_endpoint,
-        headers={'Authorization': f'Bearer {api_token['THE_ONE_API_TOKEN']}'}
-    )
-
-    all_men = json.loads(characters_request.content)['docs']
-
-    if all_men:
-        return all_men
 
     raise HTTPException(
         status_code=503,
